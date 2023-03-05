@@ -1,0 +1,44 @@
+#+title: Mudanças da Infraestrutura
+#+author: roridev <roridev@protonmail.com>
+
+* Infraestrutura SoberanaCraft
+
+** Estado da infraestrutura do V1
+- Gerenciado por [[https://github.com/soberanacraft/soberana-server][Imagens Docker]] criadas na mão de dificil manutenção
+- Baseia-se no Isolamento do Docker como medida de segurança
+- Proxy *não* passa a informação do IP do jogador ao servidor backend, tornando banimentos por IP impossíveis
+- Acesso ao console por meio de comandos obtusos do docker que requerem acesso SSH
+#+begin_src bash
+# Assume acesso SSH à VPS (que só eu possuo atualmente)
+
+# Conectar ao shell de um servidor backend
+docker exec -it soberana-server-prod-1 bash
+
+# Conectar ao console de um servidor backend
+docker exec -it soberana-server-prod-1 rcon-cli --password soberana --port 25597
+#+end_src
+
+- Atualização de algo no servidor requer recompilar a imagem docker e apagar os dados não permanentes do servidor 
+#+begin_src bash
+# Processo de Atualização do Servidor
+cd ~/server
+docker-compose -f prod.yml down
+docker image prune
+docker volume prune
+DOCKER_BUILDKIT=1 docker build --pull --rm -f "Dockerfile" -t soberana-server:latest "."
+docker-compose -f prod.yml up -d 
+
+# É necessário fazer isso para QUALQUER alteração no servidor, desde adicionar/remover mods/plugins ou modificar alguma config.
+
+#+end_src
+
+- Suporte à Bedrock Edition quebra facilmente devido as atualizações mais constantes que essa edição possui
+- Lag devido à uma escolha técnica feita no começo do servidor (Utilização de servidor Fabric-based)
+- Integração com proxy quebra facilmente
+- Ausência de um sistema de permissões no servidor
+
+** Infraestrutura V2
+- Irá se basear em projetos existentes e testados da comunidade ([[https://github.com/itzg/docker-minecraft-server][itzg/docker]], [[https://pterodactyl.io/][Pterodactyl]])
+- Possível mudança do backend para Purpur (Spigot-based) caso o lag persistir
+- Melhor integração com o proxy ([[https://github.com/QuiltMC/quilted-fabric-api/issues/46][qfapi#46]]) permitindo assim banimentos por IP
+- Acesso ao servidor e seus arquivos será feito de forma menos obtusa (O Pterodactyl possui uma GUI)
