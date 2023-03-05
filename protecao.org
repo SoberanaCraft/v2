@@ -1,0 +1,92 @@
+#+title: Sistema de proteção do servidor
+#+author: roridev <roridev@protonmail.com>
+
+** Problemas do servidor atual
+1) É impossivel banir jogadores por IP devido à um problema na infraestrutura atual
+2) Reverter ações é possivel mas demanda trabalho que atualmente só uma pessoa pode fazer
+3) É inaplicável colocar uma regra de que você precisa estar no discord da soberana pra jogar
+4) O servidor do discord, da onde a comunidade do servidor de minecraft  advém, é completamente separado do servidor de minecraft em sí
+5) Não há nenhuma responsabilização por divulgar o IP para algum mal ator
+6) Qualquer pessoa com o IP pode afetar o mapa do servidor
+7) O sistema de registro de nick pode ser abusado (ex: alguém registrar o nick de um membro da soberana)
+
+** Solução 
+- Barrar a interação com o mapa (#6) até que o jogador linque a conta do discord com a do minecraft (#4) ou seja convidado por alguém confiável (#5)
+
+- Barrar o registro da conta ~/register~ até que a identidade do jogador for verificada (#7) pelo discord, este mesmo pertencendo ao Discord da Soberana (#4)
+
+- Criação de um protocolo que bane pessoas não linkadas por IP (#1) caso essas forem consideradas problemáticas
+
+- Abertura de vagas na staff do servidor para que o peso da moderação seja dividido igualmente entre várias pessoas (#2)
+
+** Implementação do sistema de proteção do soberanacraft [0/4]
+
+- [-] [[https://github.com/soberanacraft/soberanacraft-api][API]] do soberanacraft ~api.soberanacraft.net~
+  - [X] Implementação inicial
+  - [ ] Deploy da API
+
+- [ ] Plugin para o Proxy 
+  - [ ] Implementação inicial
+  - [ ] Deploy
+
+- [ ] Mods
+  - [ ] Fabric/Quilt
+  - [ ] Forge
+
+- [ ] Plugin para Spigot/Purpur
+
+** Funcionamento do sistema de proteção do soberanacraft
+O sistema de proteção é baseado em /modos/ que são aplicados ao perfil de um jogador.
+
+Esse perfil é persistente através de todos os servidores do soberanacraft e pode ser acessado mesmo quando
+os servidores estiverem offline.
+
+*** Modos
+**** Somente-Leitura
+- Gamemode: ~Aventura~ (Quando disponível)
+
+É o modo que o jogador têm ao entrar pelo servidor pela primeira vês.
+
+Nesse modo não se tem acesso a nenhum comando fora o ~/link~.
+
+Nesse modo o jogador não pode acessar inventários, quebrar blocos e pegar items.
+
+Nota: *O nick do jogador em questão pode ser registrado por qualquer outra pessoa que linque o discord primeiro*.
+
+Uma infração no modo somente leitura causa um **Banimento por IP** imediato.
+
+**** Linkado
+- Gamemode: ~Sobrevivência~
+
+Nesse modo de jogo, o jogador possui acesso ao sobrevivência e pode alterar o mapa.
+
+O acesso ao ~/register~ e ~/login~ é liberado já que a identidade do jogador pode ter sido determinada pelo discord.
+
+Para que o jogador linque com sucesso, a conta do discord precisa estar no discord da soberana por quaisquer periodo de tempo.
+
+**** Confiável
+- Gamemode: ~Sobrevivência~ 
+
+Esse modo é uma extenção do modo ~Linkado~, que dá acesso ao jogador o comando ~/invite~ para que o mesmo possa convidar amigos.
+
+*Se torna confiável após uma semana (7 dias) de permanência no servidor de discord da soberana.*
+
+Uma infração no modo confiável é aplicada indivídualmente como no modo ~Linkado~.
+
+- /Caso os jogadores convidados forem determinados como infratores, todos os jogadores involvidos terão a pena do maior infrator compartilhada./
+- /Se todas as penas forem equivalentes, as penas serão somadas e a soma será aplicada a todos os involvidos./
+
+**** Convidado
+- Gamemode: ~Sobrevivência~
+
+Nesse modo de jogo, o jogador possui acesso ao sobrevivência e pode alterar o mapa.
+
+*Um registro de quem o convidou é salvo* mesmo se esse jogador futuramente linkar a própria conta do discord e se torne ~Linkado~
+ou ~Confiável~.
+
+Uma infração no modo confiável é aplicada ao jogador convidado e é repassada ao jogador responsável pelo convite.
+
+*Dependendo da gravidade, ambos os jogadores serão banidos por IP.*
+
+- Jogadores convidados não possuem acesso ao ~/invite~ e não podem convidar outros jogadores.
+
