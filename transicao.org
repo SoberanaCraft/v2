@@ -1,7 +1,7 @@
 #+title: Transição 🏳️‍⚧️
 #+author: roridev <roridev@protonmail.com>
 
-Status Atual: ~~Pre-Transição~~.
+Status Atual: ~Pre-Transição~.
 
 ** Pré-transição
 Criação de todos os sistemas necessários para a transição do servidor.
@@ -20,6 +20,6 @@ reativando o suporte para Bedrock caso esse estiver quebrado.
 Parte opcional caso o servidor continue lagando/crashando. 
 O servidor será migrado para o [[https://purpurmc.org][Purpur]] (Spigot-based) e suporte para alguns mods serão dropados (EMI/ *CarpetMod*).
 
-Mods se tornam plugins e deixam de ser obtidos pelo ~~modrinth.com | curseforge.com~~ e são obtidos pelo ~~spigotmc.org~~.
+Mods se tornam plugins e deixam de ser obtidos pelo ~modrinth.com | curseforge.com~ e são obtidos pelo ~spigotmc.org~.
 
 Paridade com o vanilla poderá sofrer devido aos patchs do Purpur influenciarem em algumas mecânicas do jogo.
