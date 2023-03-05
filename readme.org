@@ -1,0 +1,10 @@
+#+title: Documentação Oficial da Versão 2.0 do soberanacraft
+#+author: roridev <roridev@protonmail.com>
+
+Seja bem-vinde à documentação base do V2 do soberanacraft.
+
+** Documentos disponíveis para a leitura
+[[infra.org][Sobre a infraestrutura do servidor]]
+[[protecao.org][Sobre o sistema de proteção do servidor]]
+[[transicao.org][Sobre a transição do servidor da V1 (atual) para a V2]]
+
